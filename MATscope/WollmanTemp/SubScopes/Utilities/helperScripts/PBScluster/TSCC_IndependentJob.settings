@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings name="parallel" xmlns="urn:mathworks.matlab.settings" xsi:schemaLocation="urn:mathworks.matlab.settings settings.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <settings name="profiles">
+        <settings name="GenericProfile1" visible="true">
+            <key name="Description" visible="true" anytype="true">
+            </key>
+            <key name="ProjectComponent" visible="true" anytype="true">
+            </key>
+            <key name="SchedulerComponent" visible="true">
+                <string>
+                    <value><![CDATA[GenericProfile1SchedulerComponent]]></value>
+                </string>
+            </key>
+        </settings>
+    </settings>
+    <settings name="schedulercomponents">
+        <settings name="Generic" visible="true">
+            <settings name="GenericProfile1SchedulerComponent" visible="true">
+                <key name="CancelJobFcn" visible="true" anytype="true">
+                </key>
+                <key name="CancelTaskFcn" visible="true" anytype="true">
+                </key>
+                <key name="ClusterMatlabRoot" visible="true" anytype="true">
+                </key>
+                <key name="CommunicatingSubmitFcn" visible="true" anytype="true">
+                </key>
+                <key name="DeleteJobFcn" visible="true" anytype="true">
+                </key>
+                <key name="DeleteTaskFcn" visible="true" anytype="true">
+                </key>
+                <key name="GetJobStateFcn" visible="true" anytype="true">
+                </key>
+                <key name="HasSharedFilesystem" visible="true">
+                    <bool>
+                        <value>0</value>
+                    </bool>
+                </key>
+                <key name="IndependentSubmitFcn" visible="true" anytype="true">
+                </key>
+                <key name="JobStorageLocation" visible="true">
+                    <string minArraySize="0" maxArraySize="0" undef="true">
+                    </string>
+                </key>
+                <key name="LicenseNumber" visible="true" anytype="true">
+                </key>
+                <key name="NumWorkers" visible="true" anytype="true">
+                </key>
+                <key name="OperatingSystem" visible="true">
+                    <string>
+                        <value><![CDATA[unix]]></value>
+                    </string>
+                </key>
+                <key name="RequiresMathWorksHostedLicensing" visible="true" anytype="true">
+                </key>
+            </settings>
+        </settings>
+    </settings>
+</settings>
