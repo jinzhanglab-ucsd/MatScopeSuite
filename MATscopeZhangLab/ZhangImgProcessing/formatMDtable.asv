@@ -1,0 +1,145 @@
+%% get information for report
+
+[exptCSV,exptPath,FilterIndex] = uigetfile('*.csv','Select CSV experiment file');
+cd(exptPath);
+
+exptParams = readtable(exptCSV,'Format',...
+    '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s');
+numDish = height(exptParams);
+
+%% format the more complicated rows
+
+% Pertubations
+for m = 1:numDish
+C= strsplit(exptParams.imgEvents{m},{'\'})';
+if length(C)>1
+for k = 1:length(C)
+    strVals = strsplit(C{k},'-');
+c2(k,1:length(strVals)) = strVals;
+end
+end
+exptParams.imgEvents{m} = c2;
+end
+
+% Image observations
+for m = 1:numDish
+C= strsplit(exptParams.imgObs{m},{'\'})';
+if length(C)>1
+    obsVect = C;
+else
+    obsVect = {exptParams.imgObs{m}};
+end
+exptParams.imgObs{m} = obsVect;
+end
+
+% Post Processing
+for m = 1:numDish
+C= strsplit(exptParams.PostProcessing{m},{'\'})';
+ratioCounter = 0;
+cellVals=[];
+goodInds = cellfun(@(x) isempty(x),C);
+C = C(goodInds);
+for k = 1:length(C)    
+    strVals = strsplit(C{k},':');
+    if strcmp(strVals(1),'ratio')
+        ratioCounter = ratioCounter + 1;
+        ratioStr = strsplit(strVals{2},'/');
+        expr ='BS(\d)_Ch(\d)';
+        [numTokens,~] = regexp(ratioStr{1},expr,'tokens','match');
+        [denTokens,~] = regexp(ratioStr{2},expr,'tokens','match');
+        eval(['numChName = exptParams.w',num2str(numTokens{1}{2}),'c{m};'])
+        eval(['denChName = exptParams.w',num2str(denTokens{1}{2}),'c{m};'])
+        eval(['varName = ''R',num2str(ratioCounter),''';'])
+        ppVals{k} = {'Ratio',varName,numChName,numTokens{1}{1},denChName,denTokens{1}{1}};
+    elseif strcmp(strVals(1),'norm')
+    
+    else
+        ppVals=[];
+        
+    end
+% c2(k,1:length(strVals)) = strVals;
+end
+exptParams.PostProcessing{m} = ppVals;
+end
+%% Generate plots
+
+% Get info from metadata
+MD = Metadata(pwd);
+MDvtab = cell2table(MD.Values,'VariableNames',MD.Types);
+
+MDvtab.group = categorical(MDvtab.group);
+MDvtab.Channel = categorical(MDvtab.Channel);
+allGr = categories(MDvtab.group);
+for k = 1:numDish
+    grCh = categories(MDvtab.Channel(MDvtab.group == exptParams.folderName{k}));
+    dishPP = exptParams.PostProcessing{k};
+    numCol = max(length(grCh),length(dishPP));
+%     numPlots = length(grCh)+length(dishPP);
+    figH = figure;
+    figHall(k) = figH;
+    figName{k} = exptParams.folderName{k};
+    chValues= [];
+    tvals=[];
+    for m=1:length(grCh)
+        subplot(2,numCol,m)
+        imgInds = find(MDvtab.group == exptParams.folderName{k} & MDvtab.Channel==grCh(m));
+        for p = 1:length(imgInds)
+            frIndex = MDvtab.frame(imgInds(p));
+            tvals(frIndex) = MDvtab.TimestampFrame(imgInds(p));
+            bkgr_sub_out = MDvtab.RoiMeanBkgrSub{imgInds(p)};
+            chValues(frIndex,:,m) = bkgr_sub_out;
+        end
+        plot(tvals,chValues(:,:,m))
+        title(grCh{m})
+    end
+    
+    for m=1:length(dishPP)
+        ratioEval=[];
+        numerValsAll=[];
+        denomValsAll=[];
+        subplot(2,numCol,m+numCol)
+        PPop = dishPP{m};
+        if strcmp(PPop{1},'Ratio')
+            numerCh = PPop{3};
+            numerInds = find(MDvtab.group == exptParams.folderName{k} & MDvtab.Channel==numerCh);
+            for j = 1:length(numerInds)
+                frIndex = MDvtab.frame(numerInds(j));
+                tvals(frIndex) = MDvtab.TimestampFrame(numerInds(j));
+                if str2num(PPop{4})==1
+                    
+                    numerVals = MDvtab.RoiMeanBkgrSub{numerInds(j)};
+                else
+                    numerVals = MDvtab.RoiMeans{numerInds(j)};
+                    numerVals = numerVals(2:end);
+                end
+                numerValsAll(frIndex,:) = numerVals;
+            end
+            
+            denomCh = PPop{5};
+            denomInds = find(MDvtab.group == exptParams.folderName{k} & MDvtab.Channel==denomCh);
+            for j = 1:length(denomInds)
+                frIndex = MDvtab.frame(denomInds(j));
+                if str2num(PPop{6})==1
+                    
+                    denomVals = MDvtab.RoiMeanBkgrSub{denomInds(j)};
+                else
+                    denomVals = MDvtab.RoiMeans{denomInds(j)};
+                    denomVals = denomVals(2:end);
+                end
+                denomValsAll(frIndex,:) = denomVals;
+            end
+            
+            ratioName = PPop{2};
+            ratioEval = numerValsAll./denomValsAll;
+            eval([ratioName,'=ratioEval;'])
+            
+            plot(tvals,ratioEval)
+            titleStr = [numerCh,'/',denomCh];
+            title(titleStr);
+        end
+    end
+    set(gcf, 'Units', 'Inches', 'Position', [0, 0, 7.25, 9.125], 'PaperUnits', 'Inches', 'PaperSize', [7.25, 9.125])
+end
+
+rptName = 'Results160114.tex';
+texReport(rptName,exptParams)
