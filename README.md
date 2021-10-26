@@ -48,12 +48,12 @@ Data was collected for analysis using [MatScope](https://github.com/buffavaholic
  
 5.	This will now change the existing window to allow you to select the channel or “Image Stack” you want to analyze. Select the channel and click “Get Image Stack". For ExRai biosensors, since the 405 nm channel is initially brighter, analysis should be done with this channel.
  ![pic9](./screenshot/Picture9.png)
-6.	A GUI for selection of ROIs will now appear. Select ROIs and use the scroll bar at the bottom to make sure the ROIs stay centered. You can use arrow buttons to more ROIs, skip frames, and move all ROIs at the same time. You can also change how many pixels each ROI moves. When you are done, click “Save ROIs and Analyze". Time for this will depend on how long it takes the user to select cells.
+6.	A GUI for selection of ROIs will now appear. Select ROIs and use the scroll bar at the bottom to make sure the ROIs stay centered. You can use arrow buttons to move ROIs, skip frames, and move all ROIs at the same time. You can also change how many pixels each ROI moves. When you are done, click “Save ROIs and Analyze". Time for this will depend on how long it takes the user to select cells.
  ![pic10](./screenshot/Picture10.png)
     - To make a new ROI, select either polygon or rectangle ROI type, and then select “New ROI”. A crosshair will appear. 
 ![pic11](./screenshot/Picture11.png)
 
-      - For polygon selection, left click around region of cell of interest, outlining the area. Once outline is complete, left click to close the ROI.
+      - For polygon selection, left click around region of cell of interest, outlining the area. Once outline is complete, right click to close the ROI.
 ![pic12](./screenshot/Picture12.png)
 
       - For rectangle selection, define two corners to define the region of interest, this will create a rectangle ROI.
