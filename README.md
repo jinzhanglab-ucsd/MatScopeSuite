@@ -19,7 +19,7 @@ The program has been tested using the following operating systems:
   - Image Processing
   - Statistics and Machine Learning
 ### Installation Guide
-1.	Download the MATScope analysis software package from [Github](https://github.com/jinzhanglab-ucsd/MatScopeSuite-main)
+1.	Download the MATScope analysis software package from [Github](https://github.com/jinzhanglab-ucsd/MatScopeSuite)
 2.	Extract zip file
 3.	Move the demo data file “DemoDish” out of the MatScope-main folder
     - *“DemoDish” contains data from an imaging done with wildtype mouse embryonic fibroblasts expressing ExRai AMPKAR and treated with 2-deoxyglucose at 4 min (image 10)*
@@ -29,7 +29,7 @@ The program has been tested using the following operating systems:
 6.	In the Current Folder window, double click on the MATLAB file beginning with the file name “LUres_Dish1_1_181026.mat” and this script will open in the Editor.
     - *Approximate time: <1 min*
 ### Instructions for use and Demo
-Data was collected for analysis using [MatScope](https://github.com/buffavaholic/MATscope/wiki/Setup) and compiled for analysis using [MatScopeSuite](https://github.com/jinzhanglab-ucsd/MatScopeSuite-main).
+Data was collected for analysis using [MatScope](https://github.com/buffavaholic/MATscope/wiki/Setup) and compiled for analysis using [MatScopeSuite](https://github.com/jinzhanglab-ucsd/MatScopeSuite).
 1.	Line 7, “path = ‘\…” copy and paste the path directory in the path window between the single apostrophes 
 ![pic2](./screenshot/Picture2.png)
     - *Already existing in this script is code which will perform background subtraction*
