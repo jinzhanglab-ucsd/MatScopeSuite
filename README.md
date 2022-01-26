@@ -1,10 +1,10 @@
 
 # Image analysis of genetically encoded reporters using MATScopeSuite
+[![DOI](https://zenodo.org/badge/421124880.svg)](https://zenodo.org/badge/latestdoi/421124880)
 
 *Jin Zhang Lab, Department of Pharmacology, UC San Diego*
 
 *Last updated: 25 October 2021*
-[![DOI](https://zenodo.org/badge/421124880.svg)](https://zenodo.org/badge/latestdoi/421124880)
 
  
 ## Contents
